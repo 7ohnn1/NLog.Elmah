@@ -56,18 +56,21 @@ namespace NLog.Elmah
         /// <param name="logEvent">event to be written.</param>
 		protected override void Write(LogEventInfo logEvent)
 		{
-			var logMessage = Layout.Render(logEvent);
+            var logSource = logEvent.StackTrace == null ? string.Empty : logEvent.StackTrace.GetFrame(logEvent.UserStackFrameNumber).GetMethod().DeclaringType.FullName;
+            var logMessage = Layout.Render(logEvent);
 
 			var httpContext = HttpContext.Current;
 			var error = logEvent.Exception == null ? new Error() : httpContext != null ? new Error(logEvent.Exception, httpContext) : new Error(logEvent.Exception);
 			var type = error.Exception != null
 						   ? error.Exception.GetType().FullName
-						   : LogLevelAsType ? logEvent.Level.Name : string.Empty;
+						   : LogLevelAsType ? "NLog - " + logEvent.Level.Name : string.Empty;
 			error.Type = type;
 			error.Message = logMessage;
 			error.Time = GetCurrentDateTime == null ? logEvent.TimeStamp : GetCurrentDateTime();
 			error.HostName = Environment.MachineName;
 			error.Detail = logEvent.Exception == null ? logMessage : logEvent.Exception.StackTrace;
+		    if (error.Source == string.Empty)                error.Source = logSource;
+            error.User = (HttpContext.Current != null && HttpContext.Current.User != null && HttpContext.Current.User.Identity.IsAuthenticated) ? HttpContext.Current.User.Identity.Name : string.Empty;
 
 			_errorLog.Log(error);
 		}

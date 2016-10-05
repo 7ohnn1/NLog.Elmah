@@ -15,10 +15,10 @@ namespace NLog.Elmah.Tests.ElmahTargetTests
 
 
 		[Test]
-		public void should_set_log_type_to_info()
+		public void should_set_log_type_to_nlog_info()
 		{
 			var error = ErrorLog.GetFirstError();
-			Assert.That(error.Type, Is.EqualTo("Info"));
+			Assert.That(error.Type, Is.EqualTo("NLog - Info"));
 		}
 	}
 }
