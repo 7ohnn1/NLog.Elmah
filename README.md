@@ -1,5 +1,5 @@
 # Funnel all NLog into Elmah
-[![AppVeyor](https://img.shields.io/appveyor/ci/7ohnn1/nlog-elmahh/master.svg)](https://ci.appveyor.com/project/7ohnn1/nlog-elmah)
+[![AppVeyor](https://img.shields.io/appveyor/ci/7ohnn1/nlog-Elmah/master.svg)](https://ci.appveyor.com/project/7ohnn1/nlog-Elmah/branch/master)
 
 ELMAH target for NLog
 
