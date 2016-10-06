@@ -56,7 +56,7 @@ namespace NLog.Elmah
         /// <param name="logEvent">event to be written.</param>
 		protected override void Write(LogEventInfo logEvent)
 		{
-            var logSource = logEvent.StackTrace == null ? string.Empty : logEvent.StackTrace.GetFrame(logEvent.UserStackFrameNumber).GetMethod().DeclaringType.FullName;
+            var logSource = logEvent == null ? string.Empty : logEvent.LoggerName;
             var logMessage = Layout.Render(logEvent);
 
 			var httpContext = HttpContext.Current;
